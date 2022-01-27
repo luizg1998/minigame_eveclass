@@ -1,9 +1,7 @@
 # minigame_eveclass
 
-## Requisitos
+## Pré-requisitos
 + NPM
-+ Vue
-+ Bootstrap Vue
 
 ## Instalação
 
