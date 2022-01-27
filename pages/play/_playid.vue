@@ -1,15 +1,30 @@
 <template>
   <div>
+    <b-container class="mt-3 p-0">
+      <b-breadcrumb>
+        <b-breadcrumb-item :active="item.active" v-for="(item, i) in crumbs" :key="i">
+          <NuxtLink :to="item.path">{{ item.text }}</NuxtLink>
+        </b-breadcrumb-item>
+      </b-breadcrumb>
+    </b-container>
     <nuxt-child :play="play" />
-    <section v-if="this.$route.matched.length == 1">
-      <h1>Fase {{ play.id }}!</h1>
-      <div>
-        <p>{{ play.message }}</p>
-      </div>
-      <li v-for="outcome in play.outcomes" :key="outcome.id">
-        <NuxtLink :to="`/play/${play.id}/outcome/${outcome.id}`">{{ outcome.description }}</NuxtLink>
-      </li>
-    </section>
+    <b-card v-if="this.$route.matched.length == 1" class="container text-center mt-2 bg-light" >
+      <h3>Fase {{ play.id }}</h3>
+      <b-card>
+        <b-card-text>{{ play.message }}</b-card-text>
+      </b-card>
+      <b-container class="mt-3 p-0">
+        <b-row>
+          <b-col v-for="outcome in play.outcomes" :key="outcome.id">
+            <NuxtLink :to="`/play/${play.id}/outcome/${outcome.id}`">
+              <b-button variant="outline-primary" class="w-100">
+                {{ outcome.description }}
+              </b-button>
+            </NuxtLink>
+          </b-col>
+        </b-row>
+      </b-container>
+    </b-card>
   </div>
 </template>
 
@@ -96,6 +111,24 @@
     computed: {
       play() {
         return this.plays.find(p => p.id == this.$route.params.playid)
+      },
+      crumbs() {
+        const crumbs = []
+
+        this.plays.forEach((item, i) => {
+          const crumb = {}
+          crumb.active = item.id == this.$route.params.playid ? true : false
+          crumb.path = `/play/${item.id}`
+          crumb.text = `Fase ${item.id}`
+
+          if(item.id > this.$route.params.playid) {
+            return
+          }
+          
+          crumbs.push(crumb)
+        })
+
+        return crumbs;
       }
     }
   }
