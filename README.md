@@ -5,7 +5,7 @@
 
 ## Instalação
 
-- Clonar repositório para a pasta desejada no seu local
+- Clonar repositório para o diretório desejado no seu local
 - Abrir um terminal de comando na raiz da pasta clonada
 - Executar o comando `npm install nuxt` para instalar o nuxt e as dependências
 - instalar bootstrap-vue com o comando `npm install bootstrap-vue`
