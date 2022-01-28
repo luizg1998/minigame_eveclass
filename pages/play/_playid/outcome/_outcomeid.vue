@@ -2,7 +2,12 @@
   <b-card class="container text-center mt-2 bg-light" >
     <h3>Fase {{ play.id }}</h3>
     <hr>
-    <b-card-text :class="[outcome.correct == false ? 'text-danger' : 'text-success']"> {{ outcome.result }} </b-card-text>
+    <b-alert show :variant="outcome.correct == false ? 'danger' : 'success'">
+      <b-icon v-if="outcome.victory" icon="trophy-fill"></b-icon>
+      <b-icon v-else-if="outcome.correct" icon="emoji-laughing-fill"></b-icon>
+      <b-icon v-else icon="emoji-frown-fill"></b-icon>
+      {{ outcome.result }}
+    </b-alert>
     <div v-if="outcome.victory">
       <NuxtLink to="/">
         <b-button variant="outline-primary">Retornar ao início</b-button>
@@ -25,9 +30,10 @@
 export default {
   props: ['play'],
   computed: {
-      outcome() {
-        return this.play.outcomes.find(o => o.id == this.$route.params.outcomeid)
-      }
+    outcome() {
+      // Baseado no id da url, esta função busca no array outcomes (dentro do play atual que foi passado como prop), o objeto outcome respectivo ao id
+      return this.play.outcomes.find(o => o.id == this.$route.params.outcomeid)
     }
+  }
 }
 </script>
